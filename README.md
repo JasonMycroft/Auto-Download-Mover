@@ -1,6 +1,6 @@
 # Auto Download Mover
 
-Windows Service to monitor the Downloads folder for a filename. When a new file matching the pattern is detected, it is moved to another location. The file can optionally be renamed and/or executed if it's an exe. If a file with the same name or matching the rename pattern exists in the destination, it will be deleted.
+.NET 4.8 Windows Service to monitor the Downloads folder for a filename. When a new file matching the pattern is detected, it is moved to another location. The file can optionally be renamed and/or executed if it's an exe. If a file with the same name or matching the rename pattern exists in the destination, it will be deleted.
 
 ## Config
 `ServiceName`: The name of the Windows Service when installed.  

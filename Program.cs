@@ -1,25 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Aslains_Download_Mover
+namespace Auto_Download_Mover
 {
     internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        /// 
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            if (Environment.UserInteractive)
             {
-                new Service1()
-            };
-            ServiceBase.Run(ServicesToRun);
+                Service service = new Service();
+                service.Test();
+            }
+            else
+            {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[]
+                {
+                    new Service()
+                };
+                ServiceBase.Run(ServicesToRun);
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aslains Download Mover", "Aslains Download Mover.csproj", "{0A459C32-C2B6-47D0-8E6E-DC2B79794B75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto Download Mover", "Auto Download Mover.csproj", "{0A459C32-C2B6-47D0-8E6E-DC2B79794B75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

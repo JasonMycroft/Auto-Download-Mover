@@ -10,5 +10,7 @@ namespace Auto_Download_Mover
         public static int RetryLimit = int.Parse(ConfigurationManager.AppSettings["RetryLimit"]);
         public static int RetryDelayMS = int.Parse(ConfigurationManager.AppSettings["RetryDelayMS"]);
         public static bool StartExe = bool.Parse(ConfigurationManager.AppSettings["StartExe"]);
+        public static bool DeleteOld = bool.Parse(ConfigurationManager.AppSettings["DeleteOld"]);
+        public static string MonitorDirectory = ConfigurationManager.AppSettings["MonitorDirectory"];
     }
 }

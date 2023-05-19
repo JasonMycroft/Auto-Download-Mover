@@ -17,7 +17,10 @@ namespace Auto_Download_Mover
 
         protected override void OnStart(string[] args)
         {
-            FileSystemWatcher watcher = new FileSystemWatcher(DownloadsFolder.Path());
+            var watcher = new FileSystemWatcher(
+                !Directory.Exists(Config.MonitorDirectory) ?
+                    DownloadsFolder.Path() : Config.MonitorDirectory
+                );
             watcher.Created += OnEvent;
             watcher.Changed += OnEvent;
             watcher.EnableRaisingEvents = true;
@@ -40,14 +43,10 @@ namespace Auto_Download_Mover
 
                 if (File.Exists(newFile.FullPath))
                 {
-                    DeleteOld(newFile.Name);
-
-                    Thread.Sleep(100);
-
                     string newName = Path.Combine(Config.DestinationDirectory, GetNewName(newFile.Name));
                     MoveWithRetry(newFile.FullPath, newName);
 
-                    if (Config.StartExe && Path.GetExtension(newName) == ".exe")
+                    if (Config.StartExe && Path.GetExtension(newName) == ".exe" && !Environment.UserInteractive)
                         ProcessHelper.StartProcessAsCurrentUser(newName);
                 }
             }
@@ -105,55 +104,14 @@ namespace Auto_Download_Mover
             return name;
         }
 
-        private static void DeleteOld(string name)
-        {
-            if (!string.IsNullOrWhiteSpace(Config.Rename))
-            {
-                var files = Directory.GetFiles(Config.DestinationDirectory);
-                foreach (var file in files)
-                {
-                    if (Regex.IsMatch(Path.GetFileName(file),
-                        $"^{Config.Rename.Replace("{", "").Replace("}", "")}$"))
-                    {
-                        DeleteWithRetry(file);
-                    }    
-                }
-            }
-            else
-            {
-                var file = Path.Combine(Config.DestinationDirectory, name);
-                DeleteWithRetry(file);
-            }
-        }
-
-        private static void DeleteWithRetry(string file)
-        {
-            for (int i = 0; i < Config.RetryLimit; i++)
-            {
-                try
-                {
-                    if(File.Exists(file))
-                        File.Delete(file);
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    if(i != Config.RetryLimit - 1)
-                    {
-                        Console.WriteLine("RETRY");
-                        Thread.Sleep(Config.RetryDelayMS);
-                    }
-                }
-            }
-        }
-
         private static void MoveWithRetry(string source, string destination)
         {
             for (int i = 0; i < Config.RetryLimit; i++)
             {
                 try
                 {
+                    DeleteOld(destination);
+                    Thread.Sleep(100);
                     File.Move(source, destination);
                     break;
                 }
@@ -166,6 +124,28 @@ namespace Auto_Download_Mover
                         Thread.Sleep(Config.RetryDelayMS);
                     }
                 }
+            }
+        }
+
+        private static void DeleteOld(string fullpath)
+        {
+            if (Config.DeleteOld && !string.IsNullOrWhiteSpace(Config.Rename))
+            {
+                var files = Directory.GetFiles(Config.DestinationDirectory);
+                foreach (var file in files)
+                {
+                    if (Regex.IsMatch(Path.GetFileName(file),
+                        $"^{Config.Rename.Replace("{", "").Replace("}", "")}$"))
+                    {
+                        if (File.Exists(file))
+                            File.Delete(file);
+                    }
+                }
+            }
+            else
+            {
+                if (File.Exists(fullpath))
+                    File.Delete(fullpath);
             }
         }
 

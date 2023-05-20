@@ -15,9 +15,9 @@ namespace Auto_Download_Mover
             var appSettings = ConfigurationManager.OpenExeConfiguration(
                 Assembly.GetAssembly(typeof(Config)).Location)
                 .AppSettings.Settings;
-            this.serviceInstaller.ServiceName = appSettings["ServiceName"].Value;
-            this.serviceInstaller.DisplayName = appSettings["ServiceName"].Value;
-            this.serviceInstaller.Description = appSettings["ServiceDescription"].Value;
+            serviceInstaller.ServiceName = appSettings["ServiceName"].Value;
+            serviceInstaller.DisplayName = appSettings["ServiceName"].Value;
+            serviceInstaller.Description = appSettings["ServiceDescription"].Value;
         }
     }
 }

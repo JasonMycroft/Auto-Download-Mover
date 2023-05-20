@@ -13,17 +13,11 @@ namespace Auto_Download_Mover
         {
             if (Environment.UserInteractive)
             {
-                Service service = new Service();
-                service.Test();
+                new Service().Test();
             }
             else
             {
-                ServiceBase[] ServicesToRun;
-                ServicesToRun = new ServiceBase[]
-                {
-                    new Service()
-                };
-                ServiceBase.Run(ServicesToRun);
+                ServiceBase.Run(new Service());
             }
         }
     }

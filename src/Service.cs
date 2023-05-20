@@ -153,9 +153,9 @@ namespace Auto_Download_Mover
 
         internal void Test()
         {
-            this.OnStart(null);
+            OnStart(null);
             Console.ReadLine();
-            this.OnStop();
+            OnStop();
         }
     }
 }

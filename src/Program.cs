@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using System.Reflection;
 using System.Diagnostics;
 using System.Threading;
-using System.Linq;
 
 namespace Auto_Download_Mover
 {
@@ -72,8 +71,8 @@ namespace Auto_Download_Mover
                     string newName = Path.Combine(Config.DestinationDirectory, FileHelper.GetNewName(newFile.Name));
                     FileHelper.MoveWithRetry(newFile.FullPath, newName);
 
-                    if (Config.StartExe && Path.GetExtension(newName) == ".exe" && !Environment.UserInteractive)
-                        ProcessHelper.StartProcessAsCurrentUser(newName);
+                    if (Config.StartExe && Path.GetExtension(newName) == ".exe")
+                        Process.Start(newName);
                 }
             }
         }

@@ -111,7 +111,6 @@
     <Compile Include="src\Config.cs" />
     <Compile Include="src\DownloadsFolder.cs" />
     <Compile Include="src\FileHelper.cs" />
-    <Compile Include="src\ProcessHelper.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

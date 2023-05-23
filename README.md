@@ -13,5 +13,5 @@
 `MonitorDirectory`: The directory to monitor. When not specified or the directory doesn't exist, the `Downloads` folder is used.
 
 ## Installation
-When running the executable for the first time, the program will be set to start with Windows. If the program is later moved, the executable will have to be run again to update the startup location.  
-To uninstall, run the executable with the `uninstall` parameter. This will remove it from startup and stop any instances.
+When running the executable for the first time, the program will be set to start with Windows. If the program is later moved, the executable should be run again to update the startup location.  
+To uninstall, run the executable with the `uninstall` argument. This will remove it from startup and stop any instances.

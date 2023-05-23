@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Auto Download Mover")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyDescription("Monitor a folder for a file and move it.")]
+[assembly: AssemblyConfiguration("Release")]
+[assembly: AssemblyCompany("Jason Mycroft")]
 [assembly: AssemblyProduct("Auto Download Mover")]
 [assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]

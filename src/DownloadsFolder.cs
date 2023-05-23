@@ -7,9 +7,10 @@ using System.Security.Principal;
 
 namespace Auto_Download_Mover
 {
+    // https://assist-software.net/snippets/how-get-path-windows-special-folders-windows-service-net
     internal static class DownloadsFolder
     {
-        public static string Path()
+        internal static string Path()
         {
             var windows_identity = WindowsIdentityFromProcess(Process.GetProcessesByName("explorer").FirstOrDefault());
             return windows_identity != null ? new KnownFolder(KnownFolderType.Downloads, windows_identity).Path : KnownFolders.PublicDownloads.Path;

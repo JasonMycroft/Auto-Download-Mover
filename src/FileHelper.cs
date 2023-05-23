@@ -1,66 +1,21 @@
 ﻿using System;
 using System.IO;
-using System.ServiceProcess;
 using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Auto_Download_Mover
 {
-    public partial class Service : ServiceBase
+    internal static class FileHelper
     {
-        #region init
-
-        public Service()
+        internal static void WaitForFile(string fullpath)
         {
-            InitializeComponent();
-        }
-
-        protected override void OnStart(string[] args)
-        {
-            var watcher = new FileSystemWatcher(
-                !Directory.Exists(Config.MonitorDirectory) ?
-                    DownloadsFolder.Path() : Config.MonitorDirectory
-                );
-            watcher.Created += OnEvent;
-            watcher.Changed += OnEvent;
-            watcher.EnableRaisingEvents = true;
-        }
-
-        protected override void OnStop()
-        {
-
-        }
-
-        #endregion
-
-        #region handle new file
-
-        private static void OnEvent(object sender, FileSystemEventArgs newFile)
-        {
-            if (Regex.IsMatch(newFile.Name, $"^{Config.TargetFile}$"))
-            {
-                WaitForFile(newFile.FullPath);
-
-                if (File.Exists(newFile.FullPath))
-                {
-                    string newName = Path.Combine(Config.DestinationDirectory, GetNewName(newFile.Name));
-                    MoveWithRetry(newFile.FullPath, newName);
-
-                    if (Config.StartExe && Path.GetExtension(newName) == ".exe" && !Environment.UserInteractive)
-                        ProcessHelper.StartProcessAsCurrentUser(newName);
-                }
-            }
-        }
-
-        private static void WaitForFile(string fullpath)
-        {
-            while (IsFileLocked(new FileInfo(fullpath)))
+            while (IsLocked(new FileInfo(fullpath)))
             {
                 Thread.Sleep(Config.RetryDelayMS);
             }
         }
 
-        private static bool IsFileLocked(FileInfo file)
+        internal static bool IsLocked(FileInfo file)
         {
             FileStream stream = null;
             try
@@ -79,7 +34,7 @@ namespace Auto_Download_Mover
             return false;
         }
 
-        private static string GetNewName(string name)
+        internal static string GetNewName(string name)
         {
             if (!string.IsNullOrWhiteSpace(Config.Rename))
             {
@@ -104,7 +59,7 @@ namespace Auto_Download_Mover
             return name;
         }
 
-        private static void MoveWithRetry(string source, string destination)
+        internal static void MoveWithRetry(string source, string destination)
         {
             for (int i = 0; i < Config.RetryLimit; i++)
             {
@@ -127,7 +82,7 @@ namespace Auto_Download_Mover
             }
         }
 
-        private static void DeleteOld(string fullpath)
+        internal static void DeleteOld(string fullpath)
         {
             if (Config.DeleteOld && !string.IsNullOrWhiteSpace(Config.Rename))
             {
@@ -147,15 +102,6 @@ namespace Auto_Download_Mover
                 if (File.Exists(fullpath))
                     File.Delete(fullpath);
             }
-        }
-
-        #endregion
-
-        internal void Test()
-        {
-            OnStart(null);
-            Console.ReadLine();
-            OnStop();
         }
     }
 }

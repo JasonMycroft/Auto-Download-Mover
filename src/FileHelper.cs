@@ -7,6 +7,11 @@ namespace Auto_Download_Mover
 {
     internal static class FileHelper
     {
+        internal static void CreateDestinationDirectory() {
+            if (!Directory.Exists(Config.DestinationDirectory))
+                Directory.CreateDirectory(Config.DestinationDirectory);
+        }
+
         internal static void WaitForFile(string fullpath)
         {
             while (IsLocked(new FileInfo(fullpath)))

@@ -24,6 +24,7 @@ namespace Auto_Download_Mover
             }
 
             SetStartup();
+            FileHelper.CreateDestinationDirectory();
             StartFileWatcher();
             Run();
         }
